@@ -9,7 +9,7 @@ const mongoUrl = process.env.MONGO_REDDIT_URI
 console.log(`connecting to ${mongoUrl}`);
 
 mongoose.connect(mongoUrl, { useNewUrlParser: true }).then(() => {
-console.log("Connected to Database");
+    console.log("Connected to Database");
 }).catch((err) => {
     console.log("Error connecting to database! ", err);
 });
