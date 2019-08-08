@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const postRouter = require('./controllers/posts')
+const usersRouter = require('./controllers/users')
 
 const mongoUrl = process.env.MONGO_REDDIT_URI
 console.log(`connecting to ${mongoUrl}`);
@@ -17,5 +18,6 @@ mongoose.connect(mongoUrl, { useNewUrlParser: true }).then(() => {
 app.use(cors())
 app.use(bodyParser.json())
 app.use('/api/posts', postRouter)
+app.use('/api/users', usersRouter)
 
 module.exports = app

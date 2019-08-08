@@ -28,9 +28,6 @@ postRouter.put('/:id', async (request, response) => {
     content: body.content,
     score: body.score
   }
-  // Post.findByIdAndUpdate(request.params.id, post, { new: true }).then(
-  //   updatedPost=>response.status(201).json(updatedPost.toJSON))
-  //   .catch(error =>console.log(error))
 
   Post.findByIdAndUpdate(request.params.id, post, { new: true })
     .then(post => {
@@ -41,7 +38,6 @@ postRouter.put('/:id', async (request, response) => {
       }
     })
     .catch(error => response.status(400).status)
-
 })
 
 postRouter.post('/', async (request, response) => {
