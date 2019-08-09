@@ -5,12 +5,11 @@ const userSchema = mongoose.Schema({
     type: String,
     unique: true
   },
-  name: String,
   passwordHash: String,
   posts: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Note'
+      ref: 'Post'
     }
   ],
 })

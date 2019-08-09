@@ -1,8 +1,10 @@
 const postRouter = require('express').Router()
 const Post = require('../models/post')
+const User = require('../models/user')
 
 postRouter.get('/', (request, response) => {
-  Post.find({}).then(posts => {
+  
+  Post.find({}).populate('user', { username: 1, name: 1 }).then(posts => {
     response.json(posts.map(post => post.toJSON()))
   })
 })
@@ -44,14 +46,19 @@ postRouter.post('/', async (request, response) => {
   try {
     const body = request.body
 
+    const user = await User.findById(request.body.userId)
+  
     const post = new Post({
       title: body.title,
       author: body.author,
       content: body.content,
-      score: 0
+      score: 0,
+      user: user._id
     })
 
     const savedPost = await post.save()
+    user.posts = user.posts.concat(savedPost._id)
+    await user.save()
     response.status(201).json(savedPost.toJSON)
   }
   catch (exception) {
