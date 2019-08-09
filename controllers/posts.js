@@ -1,9 +1,17 @@
 const postRouter = require('express').Router()
 const Post = require('../models/post')
 const User = require('../models/user')
+const jwt = require('jsonwebtoken')
+
+const getTokenFrom = request => {
+  const authorization = request.get('authorization')
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+    return authorization.substring(7)
+  }
+  return null
+}
 
 postRouter.get('/', (request, response) => {
-  
   Post.find({}).populate('user', { username: 1, name: 1 }).then(posts => {
     response.json(posts.map(post => post.toJSON()))
   })
@@ -42,12 +50,20 @@ postRouter.put('/:id', async (request, response) => {
     .catch(error => response.status(400).status)
 })
 
-postRouter.post('/', async (request, response) => {
+postRouter.post('/', async (request, response, next) => {
+  const body = request.body
+
+  const token = getTokenFrom(request)
+
   try {
-    const body = request.body
+    // const decodedToken = jwt.verify(token, process.env.SECRET)
+
+    // if (!token || !decodedToken.id) {
+    //   return response.status(401).json({ error: 'token missing or invalid' })
+    // }
 
     const user = await User.findById(request.body.userId)
-  
+
     const post = new Post({
       title: body.title,
       author: body.author,
@@ -62,7 +78,7 @@ postRouter.post('/', async (request, response) => {
     response.status(201).json(savedPost.toJSON)
   }
   catch (exception) {
-    response.status(201).json("Could not post!")
+    next(exception)
   }
 })
 
