@@ -12,13 +12,14 @@ const getTokenFrom = request => {
 }
 
 postRouter.get('/', (request, response) => {
-  Post.find({}).populate('user', { username: 1, name: 1 }).then(posts => {
+  Post.find({}).populate('user', { username: 1, name: 1 }).populate('comments', { content: 1 })
+  .then(posts => {
     response.json(posts.map(post => post.toJSON()))
   })
 })
 
 postRouter.get('/:id', async (request, response) => {
-  Post.findById(request.params.id)
+  Post.findById(request.params.id).populate('user', { username: 1, name: 1 }).populate('comments', { content: 1 })
     .then(post => {
       if (post) {
         response.json(post.toJSON())

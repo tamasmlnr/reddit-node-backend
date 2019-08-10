@@ -19,7 +19,7 @@ commentRouter.get('/', (request, response) => {
 })
 
 commentRouter.get('/:id', async (request, response) => {
-  Comment.findById(request.params.id)
+  Comment.findById(request.params.id).populate('user', { username: 1, name: 1 }).populate('post', { title: 1, content: 1 })
     .then(comment => {
       if (comment) {
         response.json(comment.toJSON())
@@ -42,7 +42,6 @@ commentRouter.post('/', async (request, response, next) => {
       return response.status(401).json({ error: 'token missing or invalid' })
     }
 
-    console.log(decodedToken.id);
     const user = await User.findById(decodedToken.id)
     const post = await Post.findById(body.post)
 
@@ -57,6 +56,7 @@ commentRouter.post('/', async (request, response, next) => {
     user.comments = user.comments.concat(savedComment._id)
     post.comments = post.comments.concat(savedComment.id)
     await user.save()
+    await post.save()
     response.status(201).json(savedComment.toJSON)
   }
   catch (exception) {
