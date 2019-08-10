@@ -6,6 +6,7 @@ const mongoose = require('mongoose')
 const postRouter = require('./controllers/posts')
 const usersRouter = require('./controllers/users')
 const loginRouter = require('./controllers/login')
+const commentRouter = require('./controllers/comment')
 
 const mongoUrl = process.env.MONGO_REDDIT_URI
 console.log(`connecting to ${mongoUrl}`);
@@ -21,5 +22,6 @@ app.use(bodyParser.json())
 app.use('/api/posts', postRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter)
+app.use('/api/comment', commentRouter)
 
 module.exports = app
