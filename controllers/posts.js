@@ -56,17 +56,19 @@ postRouter.post('/', async (request, response, next) => {
   const token = getTokenFrom(request)
 
   try {
-    // const decodedToken = jwt.verify(token, process.env.SECRET)
+    const decodedToken = jwt.verify(token, process.env.SECRET)
 
-    // if (!token || !decodedToken.id) {
-    //   return response.status(401).json({ error: 'token missing or invalid' })
-    // }
+    if (!token || !decodedToken.id) {
+      return response.status(401).json({ error: 'token missing or invalid' })
+    }
 
-    const user = await User.findById(request.body.userId)
+    console.log(decodedToken.id);
+    const user = await User.findById(decodedToken.id)
 
+    console.log(user);
     const post = new Post({
       title: body.title,
-      author: body.author,
+      author: user.username,
       content: body.content,
       score: 0,
       user: user._id
