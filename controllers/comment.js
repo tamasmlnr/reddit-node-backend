@@ -32,7 +32,7 @@ commentRouter.get('/:id', async (request, response) => {
 
 commentRouter.post('/', async (request, response, next) => {
   const body = request.body
-
+  console.log(request.headers);
   const token = getTokenFrom(request)
 
   try {

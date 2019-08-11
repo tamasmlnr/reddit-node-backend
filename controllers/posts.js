@@ -13,21 +13,37 @@ const getTokenFrom = request => {
 
 postRouter.get('/', (request, response) => {
   Post.find({}).populate('user', { username: 1, name: 1 }).populate('comments', { content: 1 })
-  .then(posts => {
-    response.json(posts.map(post => post.toJSON()))
-  })
+    .then(posts => {
+      response.json(posts.map(post => post.toJSON()))
+    })
 })
 
 postRouter.get('/:id', async (request, response) => {
-  Post.findById(request.params.id).populate('user', { username: 1, name: 1 }).populate('comments', { content: 1 })
-    .then(post => {
-      if (post) {
-        response.json(post.toJSON())
-      } else {
-        response.status(404).end()
-      }
+  Post.findById(request.params.id)
+    // .populate('user', { username: 1, name: 1 })
+    // .populate('comments', { content: 1, user: 1 })
+
+    .populate({
+      path: 'user',
+      populate: [
+        { path: 'username' }
+      ],
+      path    : 'comments',
+         populate: [
+             { path: 'user' },
+             { 
+                path    : 'username',
+             }
+         ]
     })
-    .catch(error => response.status(400).status)
+    .then(post => {
+  if (post) {
+    response.json(post.toJSON())
+  } else {
+    response.status(404).end()
+  }
+})
+  .catch(error => response.status(400).status)
 })
 
 postRouter.put('/:id', async (request, response) => {
