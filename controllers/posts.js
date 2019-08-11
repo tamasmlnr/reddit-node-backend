@@ -89,7 +89,8 @@ postRouter.post('/', async (request, response, next) => {
       author: user.username,
       content: body.content,
       score: 0,
-      user: user._id
+      user: user._id,
+      date: Date.now()
     })
 
     const savedPost = await post.save()
