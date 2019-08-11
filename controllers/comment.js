@@ -49,6 +49,7 @@ commentRouter.post('/', async (request, response, next) => {
       content: body.content,
       user: user._id,
       post: body.post,
+      date: Date.now(),
       score: 0
     })
 

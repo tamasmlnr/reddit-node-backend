@@ -5,6 +5,7 @@ const postSchema = mongoose.Schema({
   author: String,
   content: String,
   score: Number,
+  date: Date,
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'

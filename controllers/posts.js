@@ -28,22 +28,22 @@ postRouter.get('/:id', async (request, response) => {
       populate: [
         { path: 'username' }
       ],
-      path    : 'comments',
-         populate: [
-             { path: 'user' },
-             { 
-                path    : 'username',
-             }
-         ]
+      path: 'comments',
+      populate: [
+        { path: 'user' },
+        {
+          path: 'username',
+        }
+      ]
     })
     .then(post => {
-  if (post) {
-    response.json(post.toJSON())
-  } else {
-    response.status(404).end()
-  }
-})
-  .catch(error => response.status(400).status)
+      if (post) {
+        response.json(post.toJSON())
+      } else {
+        response.status(404).end()
+      }
+    })
+    .catch(error => response.status(400).status)
 })
 
 postRouter.put('/:id', async (request, response) => {
@@ -53,7 +53,8 @@ postRouter.put('/:id', async (request, response) => {
     title: body.title,
     author: body.author,
     content: body.content,
-    score: body.score
+    score: body.score,
+    date: Date.now()
   }
 
   Post.findByIdAndUpdate(request.params.id, post, { new: true })

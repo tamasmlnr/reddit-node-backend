@@ -10,7 +10,8 @@ const commentSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Post'
   },
-  score: Number
+  score: Number,
+  date: Date
 })
 
 module.exports = mongoose.model('Comment', commentSchema)
