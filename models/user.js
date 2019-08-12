@@ -17,7 +17,19 @@ const userSchema = mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Comment'
     }
-  ]
+  ],
+  upvotes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Post'
+    }
+  ],
+  downvotes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Post'
+    }
+  ]  
 })
 
 userSchema.set('toJSON', {
