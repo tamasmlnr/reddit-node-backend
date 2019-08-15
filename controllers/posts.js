@@ -20,8 +20,6 @@ postRouter.get('/', (request, response) => {
 
 postRouter.get('/:id', async (request, response) => {
   Post.findById(request.params.id)
-    // .populate('user', { username: 1, name: 1 })
-    // .populate('comments', { content: 1, user: 1 })
 
     .populate({
       path: 'user',
@@ -34,7 +32,15 @@ postRouter.get('/:id', async (request, response) => {
         {
           path: 'username',
         }
-      ]
+      ],
+      path: 'upvotes',
+      populate: [
+        { path: 'user' }
+      ],
+      path: 'downvotes',
+      populate: [
+        { path: 'user' }
+      ],
     })
     .then(post => {
       if (post) {
@@ -54,7 +60,9 @@ postRouter.put('/:id', async (request, response) => {
     author: body.author,
     content: body.content,
     score: body.score,
-    date: Date.now()
+    date: body.date,
+    upvotes: body.upvotes,
+    downvotes: body.downvotes
   }
 
   Post.findByIdAndUpdate(request.params.id, post, { new: true })
@@ -89,6 +97,8 @@ postRouter.post('/', async (request, response, next) => {
       author: user.username,
       content: body.content,
       score: 0,
+      upvotes: [],
+      downvotes: [],
       user: user._id,
       date: Date.now()
     })
