@@ -32,15 +32,7 @@ postRouter.get('/:id', async (request, response) => {
         {
           path: 'username',
         }
-      ],
-      path: 'upvotes',
-      populate: [
-        { path: 'user' }
-      ],
-      path: 'downvotes',
-      populate: [
-        { path: 'user' }
-      ],
+      ]
     })
     .then(post => {
       if (post) {
@@ -61,6 +53,7 @@ postRouter.put('/:id', async (request, response) => {
     content: body.content,
     score: body.score,
     date: body.date,
+    comments: body.comments,
     upvotes: body.upvotes,
     downvotes: body.downvotes
   }
@@ -96,6 +89,7 @@ postRouter.post('/', async (request, response, next) => {
       title: body.title,
       author: user.username,
       content: body.content,
+      comments: [],
       score: 0,
       upvotes: [],
       downvotes: [],
