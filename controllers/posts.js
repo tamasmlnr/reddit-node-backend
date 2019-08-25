@@ -81,7 +81,6 @@ postRouter.post('/', async (request, response, next) => {
       return response.status(401).json({ error: 'token missing or invalid' })
     }
 
-    console.log(decodedToken.id);
     const user = await User.findById(decodedToken.id)
 
     console.log(user);
@@ -100,7 +99,7 @@ postRouter.post('/', async (request, response, next) => {
     const savedPost = await post.save()
     user.posts = user.posts.concat(savedPost._id)
     await user.save()
-    response.status(201).json(savedPost.toJSON)
+    response.json(savedPost)
   }
   catch (exception) {
     next(exception)
