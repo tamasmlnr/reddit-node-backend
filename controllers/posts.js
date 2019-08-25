@@ -18,6 +18,15 @@ postRouter.get('/', (request, response) => {
     })
 })
 
+
+postRouter.delete('/:id', async (request, response) => {
+  console.log(request.params.id);
+  Post.findByIdAndDelete(request.params.id)
+    .then(posts => {
+      response.status(201);
+    })
+})
+
 postRouter.get('/:id', async (request, response) => {
   Post.findById(request.params.id)
 
