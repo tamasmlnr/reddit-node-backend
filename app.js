@@ -23,5 +23,6 @@ app.use('/api/posts', postRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter)
 app.use('/api/comment', commentRouter)
+app.use(express.static('assets'));
 
 module.exports = app
