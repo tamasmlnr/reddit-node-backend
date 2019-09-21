@@ -64,7 +64,8 @@ postRouter.put('/:id', async (request, response) => {
     date: body.date,
     comments: body.comments,
     upvotes: body.upvotes,
-    downvotes: body.downvotes
+    downvotes: body.downvotes,
+    savedBy: body.savedBy
   }
 
   Post.findByIdAndUpdate(request.params.id, post, { new: true })
@@ -101,6 +102,7 @@ postRouter.post('/', async (request, response, next) => {
       score: 0,
       upvotes: [],
       downvotes: [],
+      savedBy: [],
       user: user._id,
       date: Date.now()
     })
