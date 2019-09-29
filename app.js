@@ -6,6 +6,7 @@ const mongoose = require('mongoose')
 const postRouter = require('./controllers/posts')
 const usersRouter = require('./controllers/users')
 const loginRouter = require('./controllers/login')
+const messageRouter = require('./controllers/message')
 const commentRouter = require('./controllers/comment')
 
 const mongoUrl = process.env.MONGO_REDDIT_URI
@@ -23,6 +24,7 @@ app.use('/api/posts', postRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter)
 app.use('/api/comment', commentRouter)
+app.use('/api/message', messageRouter)
 app.use(express.static('assets'));
 
 module.exports = app
