@@ -12,8 +12,15 @@ const getTokenFrom = request => {
 }
 
 messageRouter.get('/', (request, response) => {
-  Message.find({}).populate('userFrom', { username: 1, name: 1 }).then(message => {
-    response.json(messages.map(message => message.toJSON()))
+  Message.find({}).populate('userFrom', { username: 1, name: 1 }).then(m => {
+    response.json(m.map(message => message.toJSON()))
+  })
+})
+
+messageRouter.get('/:userToId', async (request, response) => {
+  const userToId = request.params.userToId;
+  Message.find({"userTo" : userToId}).populate('userFrom', { username: 1, name: 1 }).then(m => {
+    response.json(m.map(message => message.toJSON()))
   })
 })
 
@@ -39,7 +46,7 @@ messageRouter.post('/', async (request, response, next) => {
     })
 
     const savedMessage = await message.save()
-    response.status(201).json(savedComment.toJSON)
+    response.status(201).json(savedMessage.toJSON)
   }
   catch (exception) {
     next(exception)
