@@ -26,7 +26,6 @@ messageRouter.get('/:userToId', async (request, response) => {
 
 messageRouter.post('/', async (request, response, next) => {
   const body = request.body
-  console.log(request.headers);
   const token = getTokenFrom(request)
 
   try {
@@ -36,12 +35,14 @@ messageRouter.post('/', async (request, response, next) => {
       return response.status(401).json({ error: 'token missing or invalid' })
     }
 
-    const user = await User.findById(decodedToken.id)
+    const userToId = await User.findOne({"username" : body.userTo})
+    console.log("from" + body.userFrom.id);
+    console.log("to" + userToId._id);
 
     const message = new Message({
       content: body.content,
-      userFrom: userFrom._id,
-      userTo: userTo.id,
+      userFrom: body.userFrom.id,
+      userTo: userToId._id,
       date: Date.now(),
     })
 
