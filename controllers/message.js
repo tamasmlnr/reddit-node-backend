@@ -36,13 +36,12 @@ messageRouter.post('/', async (request, response, next) => {
     }
 
     const userToId = await User.findOne({"username" : body.userTo})
-    console.log("from" + body.userFrom.id);
-    console.log("to" + userToId._id);
 
     const message = new Message({
       content: body.content,
       userFrom: body.userFrom.id,
       userTo: userToId._id,
+      isRead: false,
       date: Date.now(),
     })
 

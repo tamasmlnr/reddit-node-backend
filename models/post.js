@@ -5,6 +5,7 @@ const postSchema = mongoose.Schema({
   author: String,
   content: String,
   score: Number,
+  isRead: Boolean,
   date: Date,
   user: {
     type: mongoose.Schema.Types.ObjectId,
